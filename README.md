@@ -157,6 +157,11 @@ REACT_APP_API_URL=http://localhost:5000/api
 
 ## 📸 Screenshots
 
+### Home Page
+<img width="1908" height="2859" alt="image" src="https://github.com/user-attachments/assets/183e10d0-e6c2-4739-8466-fb838d66dcee" />
+<img width="1908" height="2859" alt="image" src="https://github.com/user-attachments/assets/a5a9483d-1933-4476-95a3-9124be34be17" />
+
+
 ### Login/Register page
 <img width="1908" height="2044" alt="image" src="https://github.com/user-attachments/assets/c928d214-868c-4a62-88f4-de3837e85983" />
 <img width="1908" height="1585" alt="image" src="https://github.com/user-attachments/assets/c33eef93-f766-4ede-bbc6-f8604f037090" />
