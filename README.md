@@ -34,6 +34,7 @@ A full-featured, production-ready chat application with video/audio calls, end-t
 - **Read receipts** and delivery status
 - **Pagination** for message history
 - **Responsive design** with Tailwind CSS
+- **🤖 AI Assistant** powered by Ollama local model
 
 ## 🏗️ Architecture
 ```
@@ -110,6 +111,44 @@ cp .env.local.example .env.local
 npm start
 ```
 
+## 🤖 AI Assistant Setup
+
+This project includes an AI assistant powered by Ollama local model. The chatbot runs locally, so no paid provider is required.
+
+### Quick Setup
+```bash
+# Install Ollama: https://ollama.ai/download
+ollama pull llama3.1
+```
+
+### Verify Ollama is running
+```bash
+ollama list
+```
+
+### Start the project
+```bash
+cd server
+npm run build
+npm start
+```
+
+In another terminal:
+```bash
+cd client
+npm start
+```
+
+### Configuration
+```env
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.1
+```
+
+### Notes
+- Ollama must be running locally for AI responses to work.
+- The assistant is currently configured for Ollama only.
+
 ## 📁 Project Structure
 ```text
 real-time-chat-app/
@@ -140,6 +179,11 @@ MONGODB_URI=mongodb://localhost:27017/chat-app
 REDIS_URL=redis://localhost:6379
 JWT_SECRET=your-secret-key
 CLIENT_URL=http://localhost:3000
+
+# AI Configuration
+OLLAMA_BASE_URL=http://localhost:11434  # Ollama service URL
+OLLAMA_MODEL=llama3.1                   # Ollama model to use
+
 ```
 ```Frontend (.env.local)
 env

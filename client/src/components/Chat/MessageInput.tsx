@@ -484,7 +484,7 @@ const MessageInput: React.FC = () => {
                 setIsFocused(true);
               }}
               onBlur={() => setIsFocused(false)}
-              placeholder={`Message ${currentRoom.name}...`}
+              placeholder={currentRoom.isBotRoom ? `Ask AI Assistant...` : `Message ${currentRoom.name}...`}
               className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-white disabled:opacity-50 transition-[height] duration-150 ease-out"
               style={{ 
                 minHeight: '44px',

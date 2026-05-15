@@ -3,13 +3,19 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import database from './config/database';
 import authRoutes from './routes/auth.routes';
 import chatRoutes from './routes/chat.routes';
 import uploadRoutes from './routes/upload.routes';
 import path from 'path';
 
-dotenv.config();
+const rootEnvPath = path.resolve(__dirname, '../../.env');
+const serverEnvPath = path.resolve(__dirname, '../.env');
+const envPath = fs.existsSync(rootEnvPath) ? rootEnvPath : serverEnvPath;
+
+dotenv.config({ path: envPath });
+console.log(`Loaded environment variables from ${envPath}`);
 
 const app = express();
 const server = http.createServer(app);

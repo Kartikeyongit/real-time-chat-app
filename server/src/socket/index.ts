@@ -8,6 +8,7 @@ import { CallRoom } from '../models/CallRoom'; // We'll create this model
 import { v4 as uuidv4 } from 'uuid';
 import { encryptMessageContent, verifyMessageSignature } from '../middleware/encryption.middleware';
 import { EncryptionService } from '../utils/crypto';
+import { getAssistantReply, getOrCreateAssistantUser } from '../services/aiService';
 import mongoose from 'mongoose';
 
 const activeCalls = new Map<string, ActiveCall>();
@@ -216,6 +217,68 @@ export const setupSocketHandlers = (io: Server) => {
 
         // Broadcast to room
         io.to(roomId).emit('new-message', messageObject);
+
+        // If this room is the AI assistant room, generate a bot reply
+        const room = await ChatRoom.findById(roomId);
+        if (room?.isBotRoom && type === 'text') {
+          try {
+            const assistantUser = await getOrCreateAssistantUser();
+            const aiResponse = await getAssistantReply(roomId, content.trim());
+
+            const botMessage = new Message({
+              roomId,
+              sender: assistantUser._id,
+              content: aiResponse,
+              type: 'text',
+              readBy: [assistantUser._id],
+            });
+            await botMessage.save();
+            await botMessage.populate('sender', 'username avatar');
+
+            const botMessageObject = {
+              _id: botMessage._id.toString(),
+              roomId,
+              sender: {
+                _id: assistantUser._id.toString(),
+                username: assistantUser.username,
+                avatar: assistantUser.avatar || null,
+              },
+              content: botMessage.content,
+              type: botMessage.type,
+              isEncrypted: botMessage.isEncrypted,
+              encryptedContent: botMessage.encryptedContent,
+              encryptionIv: botMessage.encryptionIv,
+              encryptionKeyId: botMessage.encryptionKeyId,
+              signature: botMessage.signature,
+              timestamp: botMessage.createdAt,
+              readBy: [assistantUser._id.toString()],
+            };
+
+            await ChatRoom.findByIdAndUpdate(roomId, {
+              lastMessage: botMessage._id,
+              updatedAt: new Date(),
+            });
+
+            io.to(roomId).emit('new-message', botMessageObject);
+            io.to(roomId).emit('room-updated', {
+              roomId,
+              lastMessage: {
+                _id: botMessage._id.toString(),
+                content: botMessage.content,
+                sender: {
+                  _id: assistantUser._id.toString(),
+                  username: assistantUser.username,
+                  avatar: assistantUser.avatar || null,
+                },
+                createdAt: botMessage.createdAt,
+                type: botMessage.type,
+              },
+              updatedAt: new Date(),
+            });
+          } catch (botError) {
+            console.error('AI assistant reply failed:', botError);
+          }
+        }
 
         // Send success callback to sender
         if (callback) {

@@ -54,11 +54,8 @@ export class ChatEncryptionService {
     }
   }
 
-  async startKeyExchange(roomId: string, targetUserId?: string): Promise<void> {
+  async startKeyExchange(roomId: string, userId: string, targetUserId?: string): Promise<void> {
     try {
-      const userId = localStorage.getItem('userId');
-      if (!userId) throw new Error('User not authenticated');
-
       const keyPair = await this.sessionKeyManager.getOrCreateKeyPair(userId);
       const publicKey = await WebCryptoService.exportPublicKey(keyPair.publicKey);
 

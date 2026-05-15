@@ -30,6 +30,12 @@ const ChatMain: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col h-full">
+      {currentRoom.isBotRoom && (
+        <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-slate-900 dark:to-slate-800 border-b border-gray-200 dark:border-gray-700 text-sm text-slate-700 dark:text-slate-300">
+          <strong className="font-semibold">AI Assistant</strong> is available in this room. Messages here are not end-to-end encrypted, so the assistant can read and respond to your chat.
+        </div>
+      )}
+
       {/* Message List - Takes available space */}
       <div className="flex-1 min-h-0 overflow-hidden">
         <MessageList />

@@ -276,6 +276,11 @@ const ChatSidebar: React.FC = () => {
                     <div className="flex justify-between items-start">
                       <h4 className="font-semibold text-gray-900 dark:text-gray-100 truncate flex items-center gap-2">
                         {room.name}
+                        {room.isBotRoom && (
+                          <span className="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-full flex-shrink-0">
+                            AI
+                          </span>
+                        )}
                         {room.isPrivate && (
                           <span className="text-xs bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded-full flex-shrink-0">
                             Private

@@ -4,6 +4,7 @@ export interface IChatRoom extends Document {
   name: string;
   description?: string;
   isPrivate: boolean;
+  isBotRoom?: boolean;
   createdBy: mongoose.Types.ObjectId;
   members: mongoose.Types.ObjectId[];
   avatar?: string;
@@ -43,6 +44,11 @@ const chatRoomSchema = new Schema<IChatRoom>(
     avatar: {
       type: String,
       default: '',
+    },
+    isBotRoom: {
+      type: Boolean,
+      default: false,
+      index: true,
     },
     lastMessage: {
       type: Schema.Types.ObjectId,

@@ -9,6 +9,7 @@ export interface ChatRoom {
   name: string;
   description?: string;
   isPrivate: boolean;
+  isBotRoom?: boolean;
   createdBy: {
     _id: string;
     username: string;
@@ -193,13 +194,12 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     if (!encryptionService || !user?._id) return;
     
     try {
-      encryptionService.setUserId(user._id);
       // Generate and store user's key pair
       const publicKey = await encryptionService.initialize(user._id);
       
       // Broadcast public key to all rooms
       rooms.forEach(room => {
-        encryptionService.startKeyExchange(room._id);
+        encryptionService.startKeyExchange(room._id, user._id);
       });
       
       setIsEncryptionInitialized(true);
@@ -672,13 +672,19 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
         type,
       };
       
-      // Encrypt text messages
-      if (type === 'text' && encryptionService && currentRoom._id && isEncryptionInitialized) {
+      // Encrypt text messages for normal rooms only.
+      if (
+        type === 'text' &&
+        !currentRoom.isBotRoom &&
+        encryptionService &&
+        currentRoom._id &&
+        isEncryptionInitialized
+      ) {
         try {
           const encrypted = await encryptionService.encryptMessage(currentRoom._id, content.trim());
           messageData = {
             ...messageData,
-            ...encrypted
+            ...encrypted,
           };
         } catch (error) {
           console.error('Encryption failed, sending plaintext:', error);

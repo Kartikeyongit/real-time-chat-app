@@ -12,9 +12,38 @@ const router = express.Router();
 router.get('/rooms', authenticateToken, async (req, res) => {
   try {
     const userId = (req as any).user.userId;
-    
-    const rooms = await ChatRoom.find({
+
+    let botRoom = await ChatRoom.findOne({
       members: userId,
+      isBotRoom: true,
+    })
+      .populate('createdBy', 'username avatar email')
+      .populate('members', 'username avatar email online')
+      .populate({
+        path: 'lastMessage',
+        populate: {
+          path: 'sender',
+          select: 'username avatar',
+        },
+      });
+
+    if (!botRoom) {
+      botRoom = new ChatRoom({
+        name: 'AI Assistant',
+        description: 'Chat with the AI assistant',
+        isPrivate: true,
+        createdBy: userId,
+        members: [userId],
+        isBotRoom: true,
+      });
+      await botRoom.save();
+      await botRoom.populate('createdBy', 'username avatar email');
+      await botRoom.populate('members', 'username avatar email online');
+    }
+
+    const otherRooms = await ChatRoom.find({
+      members: userId,
+      _id: { $ne: botRoom._id },
     })
       .populate('createdBy', 'username avatar email')
       .populate('members', 'username avatar email online')
@@ -29,7 +58,7 @@ router.get('/rooms', authenticateToken, async (req, res) => {
 
     res.json({
       success: true,
-      rooms,
+      rooms: [botRoom, ...otherRooms],
     });
   } catch (error) {
     console.error('Error fetching rooms:', error);
