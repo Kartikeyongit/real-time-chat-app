@@ -200,15 +200,31 @@ REACT_APP_API_URL=http://localhost:5000/api
 6. Test typing indicators and online status
 
 ## 📸 Screenshots
-(Add your screenshots here)
 
-Login/Register page
+### Home Page
+<img width="1908" height="2859" alt="image" src="https://github.com/user-attachments/assets/183e10d0-e6c2-4739-8466-fb838d66dcee" />
+<img width="1908" height="2859" alt="image" src="https://github.com/user-attachments/assets/a5a9483d-1933-4476-95a3-9124be34be17" />
 
-Chat interface
 
-Video call in progress
+### Login/Register page
+<img width="1908" height="2044" alt="image" src="https://github.com/user-attachments/assets/c928d214-868c-4a62-88f4-de3837e85983" />
+<img width="1908" height="1585" alt="image" src="https://github.com/user-attachments/assets/c33eef93-f766-4ede-bbc6-f8604f037090" />
+<img width="1908" height="2044" alt="image" src="https://github.com/user-attachments/assets/ded57a99-37c7-4533-a57b-1f37a5e2dbcd" />
+<img width="1908" height="1585" alt="image" src="https://github.com/user-attachments/assets/68fc990b-222b-4039-b6b4-25a95aeefa78" />
 
-File upload dialog
+
+### Chat interface
+<img width="1908" height="1002" alt="image" src="https://github.com/user-attachments/assets/98f229d5-b2bb-4c6d-833e-0e86861c3938" />
+<img width="1908" height="1002" alt="image" src="https://github.com/user-attachments/assets/b07ab1d0-a657-4492-8adb-ff7614c8e47e" />
+
+
+### Video call in progress
+<img width="1908" height="1002" alt="image" src="https://github.com/user-attachments/assets/edb3f550-2a08-415f-9cb2-6f7fbc68ecfd" />
+
+
+### File upload dialog
+<img width="1908" height="1066" alt="image" src="https://github.com/user-attachments/assets/90e1125c-ee05-4c9d-bae9-6abdb2617e06" />
+
 
 ## 🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
