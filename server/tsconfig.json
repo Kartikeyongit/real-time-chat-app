@@ -13,7 +13,6 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "downlevelIteration": true 
   },
   "include": ["src/**/*", "shared/**/*"],
   "exclude": ["node_modules", "dist", "uploads"]
